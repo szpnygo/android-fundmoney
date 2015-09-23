@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <TextView
+        android:id="@+id/fund_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="支付宝"
+        android:textColor="#000"
+        android:textSize="16sp" />
+
+
+    <TextView
+        android:id="@+id/profit_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/fund_name"
+        android:layout_marginTop="8dp"
+        android:text="万份收益"
+        android:textColor="#000"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/profit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/profit_name"
+        android:layout_marginLeft="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_toEndOf="@+id/profit_name"
+        android:layout_toRightOf="@+id/profit_name"
+        android:ems="4"
+        android:text="1.1004"
+        android:textColor="#000"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/seven_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/profit_name"
+        android:layout_marginTop="8dp"
+        android:text="七日年化"
+        android:textColor="#000"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/seven"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/profit"
+        android:layout_alignStart="@+id/profit"
+        android:layout_alignTop="@+id/seven_name"
+        android:ems="4"
+        android:text="1.5870%"
+        android:textColor="#000"
+        android:textSize="16sp" />
+
+
+    <TextView
+        android:id="@+id/four_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/seven"
+        android:layout_marginLeft="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_toEndOf="@+id/seven"
+        android:layout_toRightOf="@+id/seven"
+        android:text="十四日年化"
+        android:textColor="#000"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/four"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/four_name"
+        android:layout_marginLeft="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_toEndOf="@+id/four_name"
+        android:layout_toRightOf="@+id/four_name"
+        android:text="1.5870%"
+        android:textColor="#000"
+        android:textSize="16sp" />
+
+</RelativeLayout>
