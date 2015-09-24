@@ -1,11 +1,14 @@
 package neo.smemo.info.adapter;
 
 import android.content.Context;
+import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.util.ArrayList;
 
@@ -33,7 +36,11 @@ public class FundAdapter extends RecyclerView.Adapter {
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         MyHolder itemHolder = (MyHolder) holder;
         FundBean bean = getItem(position);
-        itemHolder.title.setText(bean.company + "-" + bean.name + "[" + bean.fund_title + "]");
+        itemHolder.title.setText(bean.name + "[" + bean.fund_title + "]");
+        itemHolder.profit.setText(bean.fund_profit);
+        itemHolder.seven.setText(bean.fund_p_seven);
+        itemHolder.four.setText(bean.fund_p_fourteen);
+        itemHolder.icon.setImageURI(Uri.parse(bean.img));
     }
 
     public FundBean getItem(int position) {
@@ -50,6 +57,8 @@ public class FundAdapter extends RecyclerView.Adapter {
         private TextView profit;
         private TextView seven;
         private TextView four;
+        private SimpleDraweeView icon;
+
 
         public MyHolder(View itemView) {
             super(itemView);
@@ -57,6 +66,7 @@ public class FundAdapter extends RecyclerView.Adapter {
             profit = (TextView) itemView.findViewById(R.id.profit);
             seven = (TextView) itemView.findViewById(R.id.seven);
             four = (TextView) itemView.findViewById(R.id.four);
+            icon = (SimpleDraweeView) itemView.findViewById(R.id.icon);
         }
     }
 
