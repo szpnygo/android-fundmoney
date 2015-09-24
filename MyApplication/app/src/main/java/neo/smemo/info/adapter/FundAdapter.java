@@ -15,6 +15,9 @@ import java.util.ArrayList;
 import neo.smemo.info.R;
 import neo.smemo.info.bean.FundBean;
 
+/**
+ * 基金列表
+ */
 public class FundAdapter extends RecyclerView.Adapter {
 
     private ArrayList<FundBean> fundBeans;
@@ -40,6 +43,7 @@ public class FundAdapter extends RecyclerView.Adapter {
         itemHolder.profit.setText(bean.fund_profit);
         itemHolder.seven.setText(bean.fund_p_seven);
         itemHolder.four.setText(bean.fund_p_fourteen);
+        //使用fresco加载图片
         itemHolder.icon.setImageURI(Uri.parse(bean.img));
     }
 

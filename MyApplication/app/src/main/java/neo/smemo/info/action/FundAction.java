@@ -83,4 +83,33 @@ public class FundAction extends BaseAction {
         }).start();
     }
 
+    /**
+     * @param fundid
+     * @param actionSuccessResponse
+     */
+    public static void getFundHistory(String fundid, final ActionSuccessResponse actionSuccessResponse) {
+        RequestParams requestParams = new RequestParams();
+        requestParams.addBodyParameter("id", fundid);
+        post(API_FUND_HISTORY, requestParams, new ActionResponse() {
+            @Override
+            public void success(JSONObject data, CookieStore store) {
+                ArrayList<FundBean> fundBeanArrayList = JsonUtil.getInstance().fromJsonArray(data, FundBean.class);
+                if (null != actionSuccessResponse)
+                    actionSuccessResponse.success(fundBeanArrayList);
+            }
+
+            @Override
+            public void failure(int code, String message) {
+                LogHelper.Log_E(Constant.TAG_Network, "getFundHistory API请求失败,responseCode：" + code + " message:" + message);
+                if (actionSuccessResponse != null)
+                    actionSuccessResponse.failure(code, message);
+            }
+
+            @Override
+            public void error(int error, String message) {
+                if (actionSuccessResponse != null)
+                    actionSuccessResponse.failure(NETWORK_REQUEST_ERROR, message);
+            }
+        });
+    }
 }
