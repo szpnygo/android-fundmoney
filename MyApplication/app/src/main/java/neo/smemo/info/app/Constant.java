@@ -13,6 +13,8 @@ public interface Constant {
     String MYPREFS = "neo.smemo.info";
 
     String TAG_Network = "neo_network";
+    String TAG_Database = "neo_database";
+
     String StorageLocation_ROOT = Environment.getExternalStorageDirectory() + "/neo.smemo.info/";
     String StorageLocation_LOG = Environment.getExternalStorageDirectory() + "/neo.smemo.info/log/";
 }

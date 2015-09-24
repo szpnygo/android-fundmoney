@@ -1,12 +1,12 @@
 package neo.smemo.info.activity;
 
+import android.nfc.Tag;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.widget.Switch;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -15,9 +15,9 @@ import neo.smemo.info.R;
 import neo.smemo.info.action.FundAction;
 import neo.smemo.info.adapter.FundAdapter;
 import neo.smemo.info.base.BaseAction;
-import neo.smemo.info.base.BaseActivity;
 import neo.smemo.info.base.BaseFragmentActivity;
 import neo.smemo.info.bean.FundBean;
+import neo.smemo.info.util.LogHelper;
 import neo.smemo.info.util.system.SystemUtil;
 import neo.smemo.info.util.view.AnnotationActionBar;
 import neo.smemo.info.util.view.AnnotationView;
@@ -39,6 +39,8 @@ public class MainActivity extends BaseFragmentActivity {
     private ArrayList<FundBean> fundBeanArrayList;
     private MyHandler handler;
     private static final int REQUEST_SUCCESS = 1;
+
+    private boolean isNewrokLoadDone = false;
 
     @Override
     protected void onCreate(Bundle arg0) {
@@ -62,9 +64,37 @@ public class MainActivity extends BaseFragmentActivity {
             }
         });
 
+        loadLocalData();
         loadData();
     }
 
+    /**
+     * 加载本地数据库
+     */
+    private void loadLocalData() {
+        FundAction.getFundListByDb(new BaseAction.ActionSuccessResponse() {
+            @Override
+            public void success(Object object) {
+                //如果网络数据优先于本地数据库加载，不再加载本地数据库
+                if (isNewrokLoadDone) return;
+                ArrayList<FundBean> tmp = (ArrayList<FundBean>) object;
+                fundBeanArrayList.clear();
+                for (FundBean bean : tmp)
+                    fundBeanArrayList.add(bean);
+                LogHelper.Log_I(LOG_TAG, "获取本地数据" + tmp.size() + "条");
+                SystemUtil.sendMessage(handler, REQUEST_SUCCESS);
+            }
+
+            @Override
+            public void failure(int code, String message) {
+
+            }
+        });
+    }
+
+    /**
+     * 加载网络数据
+     */
     private void loadData() {
         FundAction.getFundList(new BaseAction.ActionSuccessResponse() {
             @Override
@@ -74,6 +104,7 @@ public class MainActivity extends BaseFragmentActivity {
                 for (FundBean bean : tmp)
                     fundBeanArrayList.add(bean);
                 SystemUtil.sendMessage(handler, REQUEST_SUCCESS);
+                isNewrokLoadDone = true;
             }
 
             @Override

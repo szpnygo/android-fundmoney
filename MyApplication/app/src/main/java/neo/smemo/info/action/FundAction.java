@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import neo.smemo.info.app.Constant;
 import neo.smemo.info.base.BaseAction;
 import neo.smemo.info.bean.FundBean;
+import neo.smemo.info.database.impl.DBFactory;
 import neo.smemo.info.util.JsonUtil;
 import neo.smemo.info.util.LogHelper;
 
@@ -46,6 +47,9 @@ public class FundAction extends BaseAction {
                 ArrayList<FundBean> fundBeanArrayList = JsonUtil.getInstance().fromJsonArray(data, FundBean.class);
                 if (null != actionSuccessResponse)
                     actionSuccessResponse.success(fundBeanArrayList);
+                //插入数据库
+                for (FundBean bean : fundBeanArrayList)
+                    DBFactory.getInsertDatabaseImpl().insertFundData(bean);
             }
 
             @Override
@@ -62,4 +66,21 @@ public class FundAction extends BaseAction {
             }
         });
     }
+
+    /**
+     * 从数据库获取数据
+     *
+     * @param actionSuccessResponse
+     */
+    public static void getFundListByDb(final ActionSuccessResponse actionSuccessResponse) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                ArrayList<FundBean> arrayList = DBFactory.getQueryDataImpl().queryFundDatas();
+                if (arrayList != null && arrayList.size() > 0 && actionSuccessResponse != null)
+                    actionSuccessResponse.success(arrayList);
+            }
+        }).start();
+    }
+
 }

@@ -1,10 +1,13 @@
 package neo.smemo.info.bean;
 
+import neo.smemo.info.database.AnnotationDatabase;
+
 /**
  * Created by suzhenpeng on 2015/9/23.
  */
 public class FundBean {
 
+    @AnnotationDatabase("netid")
     public String id;
     public String fund_time;
     public String data_time;
