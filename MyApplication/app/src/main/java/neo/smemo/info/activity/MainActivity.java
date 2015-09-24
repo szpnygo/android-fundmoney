@@ -4,14 +4,18 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.widget.Switch;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 
 import neo.smemo.info.R;
 import neo.smemo.info.action.FundAction;
+import neo.smemo.info.adapter.FundAdapter;
 import neo.smemo.info.base.BaseAction;
+import neo.smemo.info.base.BaseActivity;
 import neo.smemo.info.base.BaseFragmentActivity;
 import neo.smemo.info.bean.FundBean;
 import neo.smemo.info.util.system.SystemUtil;
@@ -30,6 +34,7 @@ public class MainActivity extends BaseFragmentActivity {
     private RecyclerView recyclerView;
     @AnnotationView(R.id.swipeRefresh)
     private SwipeRefreshLayout swipeRefreshLayout;
+    private FundAdapter fundAdapter;
 
     private ArrayList<FundBean> fundBeanArrayList;
     private MyHandler handler;
@@ -43,6 +48,20 @@ public class MainActivity extends BaseFragmentActivity {
 //        initActionBar(R.layout.actionbar_index, R.string.app_name);
 
         fundBeanArrayList = new ArrayList<>();
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        recyclerView.setLayoutManager(layoutManager);
+        fundAdapter = new FundAdapter(this, fundBeanArrayList);
+        recyclerView.setAdapter(fundAdapter);
+
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                swipeRefreshLayout.setRefreshing(true);
+                loadData();
+            }
+        });
+
         loadData();
     }
 
@@ -59,6 +78,7 @@ public class MainActivity extends BaseFragmentActivity {
 
             @Override
             public void failure(int code, String message) {
+                swipeRefreshLayout.setRefreshing(false);
                 //显示错误信息
                 showMessage(message);
             }
@@ -74,8 +94,6 @@ public class MainActivity extends BaseFragmentActivity {
     @Override
     public void onRightClick() {
         super.onRightClick();
-        SystemUtil.toastMessage(this, "ssssss");
-
     }
 
     static class MyHandler extends Handler {
@@ -93,6 +111,11 @@ public class MainActivity extends BaseFragmentActivity {
     }
 
     public void handleMessage(Message msg) {
-
+        switch (msg.what) {
+            case REQUEST_SUCCESS:
+                swipeRefreshLayout.setRefreshing(false);
+                fundAdapter.notifyDataSetChanged();
+                break;
+        }
     }
 }
