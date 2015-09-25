@@ -10,6 +10,8 @@ import android.support.v7.widget.RecyclerView;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 import neo.smemo.info.R;
 import neo.smemo.info.action.FundAction;
@@ -17,6 +19,7 @@ import neo.smemo.info.adapter.FundAdapter;
 import neo.smemo.info.base.BaseAction;
 import neo.smemo.info.base.BaseFragmentActivity;
 import neo.smemo.info.bean.FundBean;
+import neo.smemo.info.model.FundComparator;
 import neo.smemo.info.util.LogHelper;
 import neo.smemo.info.util.system.SystemUtil;
 import neo.smemo.info.util.view.AnnotationActionBar;
@@ -41,6 +44,8 @@ public class MainActivity extends BaseFragmentActivity {
     private static final int REQUEST_SUCCESS = 1;
 
     private boolean isNewrokLoadDone = false;
+
+    private int sort = 1;
 
     @Override
     protected void onCreate(Bundle arg0) {
@@ -125,7 +130,10 @@ public class MainActivity extends BaseFragmentActivity {
     @Override
     public void onRightClick() {
         super.onRightClick();
-        //TODO 添加排序
+        Comparator<FundBean> comp = new FundComparator(sort == 1 ? FundComparator.SORT_BIG : FundComparator.SORT_SMALL);
+        sort = sort * -1;
+        Collections.sort(fundBeanArrayList, comp);
+        fundAdapter.notifyDataSetChanged();
     }
 
     static class MyHandler extends Handler {
