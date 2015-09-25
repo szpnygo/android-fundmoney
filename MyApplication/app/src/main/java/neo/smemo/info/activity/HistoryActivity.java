@@ -56,6 +56,7 @@ public class HistoryActivity extends BaseFragmentActivity {
      * 加载数据
      */
     private void loadData() {
+        showProgressDialog("加载中....");
         FundAction.getFundHistory(fundBean.fundid, 20, new BaseAction.ActionSuccessResponse() {
             @Override
             public void success(Object object) {
@@ -76,11 +77,12 @@ public class HistoryActivity extends BaseFragmentActivity {
                 }
                 LogHelper.Log_I(LOG_TAG, "获取本地数据" + tmp.size() + "条");
                 SystemUtil.sendMessage(handler, REQUEST_SUCCESS);
+                dismissProgressDialogInThread();
             }
 
             @Override
             public void failure(int code, String message) {
-
+                dismissProgressDialogInThread();
             }
         });
     }
