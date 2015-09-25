@@ -1,6 +1,7 @@
 package neo.smemo.info.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -13,6 +14,7 @@ import com.facebook.drawee.view.SimpleDraweeView;
 import java.util.ArrayList;
 
 import neo.smemo.info.R;
+import neo.smemo.info.activity.HistoryActivity;
 import neo.smemo.info.bean.FundBean;
 
 /**
@@ -38,13 +40,22 @@ public class FundAdapter extends RecyclerView.Adapter {
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         MyHolder itemHolder = (MyHolder) holder;
-        FundBean bean = getItem(position);
+        final FundBean bean = getItem(position);
         itemHolder.title.setText(bean.name + "[" + bean.fund_title + "]");
         itemHolder.profit.setText(bean.fund_profit);
         itemHolder.seven.setText(bean.fund_p_seven);
         itemHolder.four.setText(bean.fund_p_fourteen);
         //使用fresco加载图片
         itemHolder.icon.setImageURI(Uri.parse(bean.img));
+
+        itemHolder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, HistoryActivity.class);
+                intent.putExtra("data", bean);
+                context.startActivity(intent);
+            }
+        });
     }
 
     public FundBean getItem(int position) {

@@ -87,9 +87,10 @@ public class FundAction extends BaseAction {
      * @param fundid
      * @param actionSuccessResponse
      */
-    public static void getFundHistory(String fundid, final ActionSuccessResponse actionSuccessResponse) {
+    public static void getFundHistory(String fundid, int num, final ActionSuccessResponse actionSuccessResponse) {
         RequestParams requestParams = new RequestParams();
         requestParams.addBodyParameter("id", fundid);
+        requestParams.addBodyParameter("num", String.valueOf(num));
         post(API_FUND_HISTORY, requestParams, new ActionResponse() {
             @Override
             public void success(JSONObject data, CookieStore store) {

@@ -1,12 +1,18 @@
 package neo.smemo.info.bean;
 
+import java.io.Serializable;
+
 import neo.smemo.info.database.AnnotationDatabase;
+import neo.smemo.info.database.AnnotationDbUnUsed;
 
 /**
+ * 基金Bean
  * Created by suzhenpeng on 2015/9/23.
  */
-public class FundBean {
+public class FundBean implements Serializable{
 
+    //用于处理字段与数据库不一直
+    //JSON解析需要用ID，数据库中对应存的为netid
     @AnnotationDatabase("netid")
     public String id;
     public String fund_time;
@@ -29,6 +35,9 @@ public class FundBean {
     public String fund_p_month;
     public String fund_p_year;
     public String date;
+
+    @AnnotationDbUnUsed
+    public float width;
 
     @Override
     public String toString() {
