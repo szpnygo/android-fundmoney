@@ -31,11 +31,11 @@ public abstract class RecyclerViewDragHolder {
     /**
      * 背后布局
      */
-    private View bgView;
+    public View bgView;
     /**
      * 主布局
      */
-    private View topView;
+    public View topView;
     /**
      * 拖动布局
      */
